@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
+<h2>ADD A PAGE</h2>
+<hr />
 <form action='/add/submit' method='post'>
   <div class="form-group">
     <label for="pageTitle">PAGE TITLE</label>
@@ -7,9 +9,9 @@
   </div>
   <div class="form-group">
     <label for="pageContent">PAGE CONTENT</label>
-    <textarea name="pageContent" class="form-control" rows="5" id="pageContent"></textarea>
+    <textarea name="pageContent" class="form-control" rows="10" id="pageContent" placeholder="Entery Page Content"></textarea>
   </div>
 
-  <button type="submit" class="btn btn-default">Submit</button>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {% endblock %}

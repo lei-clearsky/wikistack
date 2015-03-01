@@ -1,9 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-	<h2>{{title}}</h2>
+	<h2 class="text-uppercase">{{title}}</h2>
 	
 	<hr />
-	<p>{{content}}</p>
-</div>
+	<p>{{content | marked}}</p>
 {% endblock %}
