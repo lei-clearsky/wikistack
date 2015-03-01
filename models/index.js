@@ -8,19 +8,21 @@ var Schema = mongoose.Schema;
 
 var pageSchema = new Schema({
     title: String,
-      url_name: String,
-      owner_id:   String,
-      body:   String,
-      date: { type: Date, default: Date.now },
-      status: Number
+    url_name: String,
+    owner_id:   String,
+    body:   String,
+    date: { type: Date, default: Date.now },
+    status: Number,
+    tags: [String]  
 });
 
 var userSchema = new Schema({
-    name:  {
-                   first: String,
-          last: String
-      },
-      email: String
+    name:
+    {
+      first: String,
+      last: String
+    },
+    email: String
 });
 
 pageSchema.virtual('full_route').get(function () {

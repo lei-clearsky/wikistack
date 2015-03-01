@@ -25,8 +25,8 @@ router.get('/wiki/:name', function(req, res, next) {
   models.Page.find({url_name: name}, function(err, data){
   	// var SOMETHING = data
   	// res.render('index', { title: 'WikiStack', docs: data });
-  	console.log(data);
-  	res.render('show', { title: data[0].title, content: data[0].body });
+    
+  	res.render('show', { title: data[0].title, content: data[0].body, tags: data[0].tags });
   	// res.render('show', { title: data.title, content: data.body });
   });
 
