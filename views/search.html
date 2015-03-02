@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+<h2>Search Pages by Tags</h2>
+<form action='/search' method='get'>
+  <div class="form-group">
+    <label for="pageTag">TAGS</label>
+      <input name="pageTag" type="text" class="form-control" id="pageTag" placeholder="Enter Page Tag">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

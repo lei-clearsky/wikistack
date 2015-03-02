@@ -23,7 +23,7 @@ module.exports = function(swig) {
   swig.setFilter('page_link', page_link);
 
   var page_tag = function (tag) {
-    return "<a href='/search'>" + tag + "</a>";
+    return "<a href='/search?pageTag=" + tag + "'>" + tag + "</a>";
   }
   page_tag.safe = true;
   swig.setFilter('page_tag', page_tag);

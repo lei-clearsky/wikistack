@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>{{title}}</h1>
+
+    {% if docs.length > 0 %}
+      <ul>
+        {% for doc in docs %}
+          <li>{{doc|page_link}}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      There are no pages match your search. Why don't you change your query and <a href='/search'>search again</a>?
+    {% endif %}
+
+{% endblock %}

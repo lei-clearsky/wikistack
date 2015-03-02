@@ -26,7 +26,7 @@ router.post('/submit', function(req, res) {
   var title = req.body.pageTitle;
   var body = req.body.pageContent;
   var url_name = generateUrlName(title);
-  var tags = req.body.pageTags.split(/[ ,]+/);
+  var tags = req.body.pageTags.split(/\s*,\s*/);
   
 
   var p = new models.Page({ "title": title, "body":body, "url_name":url_name, "tags": tags });

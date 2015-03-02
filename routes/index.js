@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 });
 
 
-// IN PROGRESS
+// Get wiki page
 router.get('/wiki/:name', function(req, res, next) {
   
   var models = require('../models/');
@@ -32,5 +32,23 @@ router.get('/wiki/:name', function(req, res, next) {
 
 });
 
+
+// Get tag
+router.get('/search', function(req, res, next) {
+  if (req.query.pageTag) {
+    var tagQuery = req.query.pageTag;
+    models.Page.find({tags: {$elemMatch: {$in: [tagQuery]}}}, function(err, data) {
+      res.render('searchTagResult', {
+        title: "Search Result(s) for '" + tagQuery + "'",
+        docs: data
+      });
+      //res.redirect('/searchTagResult');
+    });
+  } else {
+    res.render('search', {
+      title: 'Sorry, no results match this tag. Try to search with different query :)'
+    });
+  }
+});
 
 module.exports = router;
