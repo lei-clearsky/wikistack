@@ -1,12 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
-	<h2 class="text-uppercase">{{title}}</h2>
+  <!-- Left Column  -->
+  <h2 class="text-uppercase">{{title}}</h2>
 	
 	<hr />
-  <p>{{content | marked}}</p>
   <p><strong>Tags:</strong>
   {% for tag in tags %}
     <span class='tags'>{{tag | page_tag}}</span>
   {% endfor %}
   </p>
+
+  <p>{{content | marked}}</p>
+  <!-- Right Column -->
+  <h3>Similar Pages:</h3>
+  <ul>
+    {% for page in pages %}
+    <li>{{page | page_link}}</li>
+    {% endfor %}
+  </ul>
 {% endblock %}
+

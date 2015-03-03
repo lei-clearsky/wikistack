@@ -7,7 +7,7 @@
     {% if docs.length > 0 %}
       <ul>
         {% for doc in docs %}
-          <li>{{doc|page_link}}</li>
+        <li>{{doc|page_link}} <a href= "/edit/{{doc.id}}">Edit</a></li>
         {% endfor %}
       </ul>
     {% else %}

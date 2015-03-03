@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>EDIT A PAGE</h2>
+<hr />
+<form action='/edit/{{id}}/submit' method='post'>
+  <div class="form-group">
+    <label for="pageTitle">PAGE TITLE</label>
+    <input value="{{title}}" name="pageTitle" type="text" class="form-control" id="pageTitle" placeholder="Enter Page Title">
+  </div>
+  <div class="form-group">
+    <label for="pageContent">PAGE CONTENT</label>
+    <textarea name="pageContent" class="form-control" rows="10" id="pageContent" placeholder="Entery Page Content">{{content}}</textarea>
+  </div>
+  <div class="form-group">
+    <label for="pageTags">PAGE TAGS</label>
+    <input value="{{tags}}" name="pageTags" class="form-control" rows="10" id="pageTags" placeholder="Entery Page Tags">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

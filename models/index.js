@@ -29,6 +29,10 @@ pageSchema.virtual('full_route').get(function () {
     return '/wiki/' + this.url_name;
 });
 
+pageSchema.methods.findSimilar = function (cb) {
+  return this.model('Page').find({tags: this.tags}, cb );
+}
+
 // pageSchema.virtual('full_route').set(function () {
 //     var = FULLTHING
 //     url_name = FULLTHING - /wiki/
@@ -36,8 +40,10 @@ pageSchema.virtual('full_route').get(function () {
 
 Page = mongoose.model('Page', pageSchema);
 User = mongoose.model('User', userSchema);
+//var pageInstance = new Page({tags: pageTags});
+//module.exports = {"Page": Page, "User": User, "PageInstance": pageInstance};
+module.exports = {"Page": Page, "User": User };
 
-module.exports = {"Page": Page, "User": User};
 
 //Page.findOne({name: name}, function(err, page) {
 //  console.log(page.full_route);

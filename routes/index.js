@@ -1,37 +1,31 @@
 var express = require('express');
 var router = express.Router();
-
 var models = require('../models/');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  
   models.Page.find(function(err, data){
-  	// var SOMETHING = data
   	res.render('index', { title: 'WikiStack', docs: data });
   });
-
 });
-
 
 // Get wiki page
 router.get('/wiki/:name', function(req, res, next) {
-  
   var models = require('../models/');
-
   var name = req.params.name;
-   
-   // CHECK.
+  // var pageInstance = new Page({tags: {$ne: name}});   
   models.Page.find({url_name: name}, function(err, data){
-  	// var SOMETHING = data
   	// res.render('index', { title: 'WikiStack', docs: data });
-    
-  	res.render('show', { title: data[0].title, content: data[0].body, tags: data[0].tags });
+    //var pageInstance = new models.Page({tags: {$elemMatch: {$in: [data[0].tags]}},url_name: {$ne: data[0].url_name}}); 
+    var pageInstance = new models.Page(); 
+    pageInstance.findSimilar(function (err, similarPages) {
+      res.render('show', { title: data[0].title, content: data[0].body, tags: data[0].tags, pages: similarPages });
+      console.log('similar pages');
+      console.log(similarPages);
+    });    
   	// res.render('show', { title: data.title, content: data.body });
   });
-
 });
-
 
 // Get tag
 router.get('/search', function(req, res, next) {
@@ -50,5 +44,23 @@ router.get('/search', function(req, res, next) {
     });
   }
 });
+
+// Update
+// router.get('/:id/update', function(req, res, next) {
+//  models.Page.update({}, function(err, data) {
+//    res.render('show');
+//  });
+// });
+//
+//
+// Delete
+
+
+
+
+
+
+
+
 
 module.exports = router;
