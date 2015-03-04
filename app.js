@@ -39,7 +39,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use('/', routes);
 app.use('/users', users);
 app.use('/add', add_routes);
@@ -53,7 +52,6 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
-
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
@@ -78,10 +76,7 @@ app.use(function(err, req, res, next) {
 });
 
 // passport config
-// var Account = require('./models/').User;;
-// passport.use(new LocalStrategy(Account.authenticate()));
-// passport.serializeUser(Account.serializeUser());
-// passport.deserializeUser(Account.deserializeUser());
+/*
 passport.serializeUser(function(user, done) {
    done(null, user.id);
  });
@@ -91,5 +86,5 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
   });
 });
-
+*/
 module.exports = app;

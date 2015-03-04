@@ -1,4 +1,12 @@
+var session = require('express-session')
 var mongoose = require('mongoose');
+var nodemailer = require('nodemailer');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var bcrypt = require('bcrypt-nodejs');
+var async = require('async');
+var crypto = require('crypto');
+// var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/wikistack');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'mongodb connection error:'));
@@ -24,7 +32,7 @@ var userSchema = new Schema({
     },
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true},
-    email: {type: String, required: true, unique: true}
+    email: {type: String, required: true, unique: true},
     resetPasswordToken: String,
     resetPasswordExpires: Date
 });
@@ -61,18 +69,12 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 };
 
-// pageSchema.virtual('full_route').set(function () {
-//     var = FULLTHING
-//     url_name = FULLTHING - /wiki/
-// });
-
 Page = mongoose.model('Page', pageSchema);
 User = mongoose.model('User', userSchema);
 //var pageInstance = new Page({tags: pageTags});
 //module.exports = {"Page": Page, "User": User, "PageInstance": pageInstance};
+
+
+
 module.exports = {"Page": Page, "User": User };
 
-
-//Page.findOne({name: name}, function(err, page) {
-//  console.log(page.full_route);
-//});
