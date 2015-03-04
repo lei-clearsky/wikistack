@@ -22,7 +22,11 @@ var userSchema = new Schema({
       first: String,
       last: String
     },
-    email: String
+    username: {type: String, required: true, unique: true},
+    password: {type: String, required: true},
+    email: {type: String, required: true, unique: true}
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 });
 
 pageSchema.virtual('full_route').get(function () {
@@ -32,6 +36,30 @@ pageSchema.virtual('full_route').get(function () {
 pageSchema.methods.findSimilar = function (cb) {
   return this.model('Page').find({tags: this.tags}, cb );
 }
+// from examples in https://github.com/jaredhanson/passport-local
+userSchema.pre('save', function(next) {
+  var user = this;
+  var SALT_FACTOR = 5;
+
+  if (!user.isModified('password')) return next();
+
+  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+    if (err) return next(err);
+
+    bcrypt.hash(user.password, salt, null, function(err, hash) {
+      if (err) return next(err);
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+   if (err) return cb(err);
+     cb(null, isMatch);
+  });
+};
 
 // pageSchema.virtual('full_route').set(function () {
 //     var = FULLTHING

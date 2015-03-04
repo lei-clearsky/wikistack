@@ -1,4 +1,12 @@
 var express = require('express');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var GoogleStrategy = require('passport-google').Strategy;
+var session = require('express-session');
+var nodemailer = require('nodemailer');
+var bcrypt = require('bcrypt-nodejs');
+var async = require('async');
+var crypto = require('crypto');
 var swig = require('swig');
 require('./filters')(swig);
 
@@ -26,7 +34,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({secret: 'session secret key'}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', routes);
 app.use('/users', users);
@@ -65,5 +77,19 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// passport config
+// var Account = require('./models/').User;;
+// passport.use(new LocalStrategy(Account.authenticate()));
+// passport.serializeUser(Account.serializeUser());
+// passport.deserializeUser(Account.deserializeUser());
+passport.serializeUser(function(user, done) {
+   done(null, user.id);
+ });
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 module.exports = app;

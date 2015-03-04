@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Login</h2>
+<hr />
+<form action='/login/submit' method='post'>
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input name="username" type="text" class="form-control" id="username" placeholder="Enter Username">
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input name="password" class="form-control" id="password" type="password" placeholder="Enter Password">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+  <a href="/forgot">Forgot Password?</a>
+</form>
+{% endblock %}

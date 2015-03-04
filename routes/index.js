@@ -55,12 +55,52 @@ router.get('/search', function(req, res, next) {
 //
 // Delete
 
+// Authentication
+router.get('/', function (req, res) {
+  res.render('index', {user: req.user});
+});
 
+router.get('/register', function(req, res) {
+  res.render('register', {});
+});
 
+router.post('/register', function(req, res) {
+  models.User.register(new models.User(username: req.body.username), req.body.password, function (err, account){
+    if (err) {
+      return res.render('register', {account: account});
+    }
 
+    passport.authenticate('local')(req, res, function () {
+      res.redirect('/');
+    });
+  });
+});
 
+router.get('/login', function(req, res) {
+  res.render('login', {user : req.user});
+});
 
+router.post('/login', passport.authenticate('local'), function(req, res) {
+  res.redirect('/');
+});
 
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
+pssport.use(new LocalStrategy(function(username, password, done) {
+  models.User.findOne({ username: username }, function(err, user) {
+    if (err) return done(err);
+    if (!user) return done(null, false, { message: 'Incorrect username.' });
+    user.comparePassword(password, function(err, isMatch) {
+      if (isMatch) {
+        return done(null, user);
+      } else {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+    });
+  });
+}));
 
 module.exports = router;
