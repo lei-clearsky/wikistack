@@ -1,10 +1,98 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic);
+
+/* Generic Styles */
+*{
+    padding:0;
+    margin:0;
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+}
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  xfont: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Lato', Calibri, Arial, sans-serif;
+}
+
+/* http://stackoverflow.com/questions/4009931/css-div-height-problem-on-float-set */
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 a {
-  color: #00B7FF;
+  color: #333;
+}
+
+a:hover, a:focus {
+  color: #039;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+li.slash-list-item:before {
+  content: '/ ';
+}
+
+h2 {
+  font-weight: 300;
+}
+
+.btn {
+  border-radius: 0;
+  border: none;
+}
+
+.btn-primary,
+.btn-danger {
+  border-color: none;
+}
+
+.btn-primary {
+  background-color: #01508c;
+}
+
+.btn-danger {
+  background-color: #990000;
+}
+
+.inline-form-btn {
+  display: inline-block
+}
+
+.wiki-list-item {
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+.wiki-list-item h2{
+  font-weight: 300;
+}
+
+.wiki-list-item-info {
+  float:left;
+  width: 80%;
+}
+
+.wiki-list-item-action {
+  float: left;
+  width: 20%;
+  margin-top:20px;
+  text-align: right;
+}
+
+.wiki-list-item-action .btn {
+  margin: 5px;;
+}
+
+hr {
+  border-top: 1px solid #fff;
 }
 
 .gray {
@@ -16,5 +104,15 @@ a {
 }
 
 .container-space {
-  margin:30px 0;
+  xmargin:30px 0;
 }
+
+@media only screen and (max-width: 768px) {
+  .wiki-list-item-info,
+  .wiki-list-item-action {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+

@@ -18,7 +18,8 @@ router.get('/wiki/:name', function(req, res, next) {
   // var pageInstance = new Page({tags: {$ne: name}});   
   models.Page.find({url_name: name}, function(err, data){
   	data[0].getSimilar(function(err, similarPages) {
-      res.render('show', { 
+      res.render('show', {
+        doc: data[0], 
         title: data[0].title,
         tags: data[0].tags, 
         similarPages: similarPages,
