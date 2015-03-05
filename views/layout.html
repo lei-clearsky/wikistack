@@ -22,7 +22,9 @@
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
+          {% if user %}
           <li class="active"><a href="/add">ADD PAGE</a></li>
+          {% endif %}
           <li><a href="/search">SEARCH</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

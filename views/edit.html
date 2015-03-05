@@ -2,7 +2,7 @@
 {% block content %}
 <h2>EDIT A PAGE</h2>
 <hr />
-<form action='/edit/{{id}}/submit' method='post'>
+<form action='/page/{{id}}/edit' method='post'>
   <div class="form-group">
     <label for="pageTitle">PAGE TITLE</label>
     <input value="{{title}}" name="pageTitle" type="text" class="form-control" id="pageTitle" placeholder="Enter Page Title">

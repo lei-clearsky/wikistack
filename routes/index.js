@@ -17,13 +17,15 @@ router.get('/wiki/:name', function(req, res, next) {
   var name = req.params.name;
   // var pageInstance = new Page({tags: {$ne: name}});   
   models.Page.find({url_name: name}, function(err, data){
-  	// res.render('index', { title: 'WikiStack', docs: data });
-    //var pageInstance = new models.Page({tags: {$elemMatch: {$in: [data[0].tags]}},url_name: {$ne: data[0].url_name}}); 
-    var pageInstance = new models.Page(); 
-    pageInstance.findSimilar(function (err, similarPages) {
-      res.render('show', { title: data[0].title, content: data[0].body, tags: data[0].tags, pages: similarPages });
-    });    
-  	// res.render('show', { title: data.title, content: data.body });
+  	data[0].getSimilar(function(err, similarPages) {
+      res.render('show', { 
+        title: data[0].title,
+        tags: data[0].tags, 
+        similarPages: similarPages,
+        content: data[0].body, 
+        user: req.user
+      });
+    });
   });
 });
 
@@ -44,25 +46,46 @@ router.get('/search', function(req, res, next) {
   }
 });
 
-// Update
-// router.get('/:id/update', function(req, res, next) {
-//  models.Page.update({}, function(err, data) {
-//    res.render('show');
-//  });
-// });
-//
-//
-// Delete
+// Edit page route
+router.get('/page/:id/edit', function(req, res) {
+  // this is the /edit/:id route
+  models.Page.findById(req.params.id, function (err, page) {
+    if (err) return handleError(err);
+    console.log(page.body);
+    res.render('edit', {id: req.params.id, title: page.title, content: page.body, tags: page.tags });
+  });  
+});
 
-// Authentication
-/*
- * router.get('/', function (req, res) {
-  res.render('index', {
-    user: req.user
+router.post('/page/:id/edit', function(req, res) {
+  // this is the /edit/submit route
+  var generateUrlName = function(name) {
+    if (typeof name != "undefined" && name !== "") {
+      // Removes all non-alphanumeric characters from name
+      // And make spaces underscore
+      return name.replace(/\s/ig,"_").replace(/\W/ig,"");
+    } else {
+      // Generates random 5 letter string
+      return Math.random().toString(36).substring(2,7);
+    }
+  };
+
+  var title = req.body.pageTitle;
+  var body = req.body.pageContent;
+  var url_name = generateUrlName(title);
+  var tags = req.body.pageTags.split(/\s*,\s*/);
+  models.Page.update({_id: req.params.id}, {$set: {title: title, body: body, url_name: url_name, tags: tags}}, function (err, cb) {
+    res.redirect('/');
+  }); 
+
+});
+
+// Delete page route
+router.post('/page/:id/delete', function(req, res) {
+  models.Page.findOneAndRemove({_id: req.params.id}, function (err, cb) {
+    res.redirect('/');    
   });
 });
-*/
-
+// Authentication
 router.get('/login', function(req, res) {
   res.render('login', {
     user : req.user
@@ -97,23 +120,18 @@ router.get('/logout', function(req, res) {
 
 router.post('/signup', function(req, res) {
   var user = new models.User({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password
-    });
-  console.log('user save data');
-  console.log(req.body.username);
-  console.log(req.body.email);
-  console.log(req.body.password);
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password
+  });
   user.save(function(err) {
-    console.log('check user save');
-    console.log(user);
     req.logIn(user, function(err) {
       res.redirect('/');
     });
   });
 });
 
+// passport config
 passport.use(new LocalStrategy(function(username, password, done) {
   models.User.findOne({ username: username }, function(err, user) {
     if (err) return done(err);
@@ -128,7 +146,6 @@ passport.use(new LocalStrategy(function(username, password, done) {
   });
 }));
 
-// passport config
 passport.serializeUser(function(user, done) {
    done(null, user.id);
  });

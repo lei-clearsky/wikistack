@@ -37,6 +37,17 @@ var userSchema = new Schema({
     resetPasswordExpires: Date
 });
 
+pageSchema.methods.getSimilar = function(cb) {
+  this.constructor.find({
+    _id: {$ne: this._id},
+    tags: {$elemMatch: { 
+        $in: this.tags
+      }
+    }
+  }, cb)
+}
+
+
 pageSchema.virtual('full_route').get(function () {
     return '/wiki/' + this.url_name;
 });

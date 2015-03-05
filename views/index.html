@@ -2,16 +2,28 @@
 
 {% block content %}
     <h1>{{title}}</h1>
-    <p>Welcome to {{title}}</p>
 
     {% if docs.length > 0 %}
-      <ul>
-        {% for doc in docs %}
-        <li>{{doc|page_link}} <a href= "/edit/{{doc.id}}">Edit</a></li>
-        {% endfor %}
-      </ul>
+      <div class="wiki-list">
+      {% for doc in docs %}
+        <div class='wiki-list-item'>
+          <div class="wiki-list-item-info">
+            {{doc|page_link}}
+          </div> 
+          {% if user %} 
+          <a href= "/page/{{doc.id}}/edit">
+            <button class="btn btn-primary">Edit</button>
+          </a>
+          <form method="POST" action="/page/{{doc.id}}/delete">
+            <input type="submit" class="btn btn-danger" value="delete"></input>
+          </form>
+          {% endif %}
+        </div>
+      {% endfor %}
+      </div>
     {% else %}
       There are no pages. Why don't you <a href='/add'>add one</a>?
     {% endif %}
+    
 
 {% endblock %}
