@@ -8,16 +8,12 @@
       {% for doc in docs %}
         <div class='wiki-list-item group'>
           <div class="wiki-list-item-info">
-            <h2>{{doc|page_link}}</h2>
+            <h2>{{ doc | page_link }}</h2>
           </div> 
           {% if user %}
           <div class="wiki-list-item-action"> 
-            <a href= "/page/{{doc.id}}/edit">
-              <button class="btn btn-primary">Edit</button>
-            </a>
-            <form method="POST" action="/page/{{doc.id}}/delete" class="inline-form-btn">
-              <input type="submit" class="btn btn-danger" value="delete"></input>
-            </form>
+            {{ doc | edit_page_link  }}
+            {{ doc | delete_page_link  }}
           </div>
           {% endif %}
         </div>

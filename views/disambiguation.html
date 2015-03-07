@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h2>{{page_name}} (disambiguration)</h2>
+    <h3 class="highlight-red">There are more than one page with the name {{page_name}}, please choose one below:</h3>
+    <ul>
+      {% for doc in docs %}
+        <li class="slash-list-item mid-size">
+          {{ doc | page_id_link }}
+          <p>{{ doc.body | trim_words }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+      
+{% endblock %}

@@ -17,18 +17,49 @@ router.get('/wiki/:name', function(req, res, next) {
   var name = req.params.name;
   // var pageInstance = new Page({tags: {$ne: name}});   
   models.Page.find({url_name: name}, function(err, data){
-  	data[0].getSimilar(function(err, similarPages) {
+    if (data.length === 1) {
+      data[0].getSimilar(function(err, similarPages) {
+        res.render('show', {
+          doc: data[0], 
+          title: data[0].title,
+          tags: data[0].tags, 
+          similarPages: similarPages,
+          content: data[0].body, 
+          user: req.user
+        });
+      });
+    } else {
+      res.redirect('/wiki/' + name + '/disambiguration');
+    }
+  });
+});
+
+router.get('/wiki/:name/disambiguration', function(req, res, next) {
+  models.Page.find({url_name: req.params.name}, function(err, data) {
+    res.render('disambiguation', {
+        docs: data,
+        page_name: data[0].title,
+        user: req.user
+    });
+  });
+});
+
+router.get('/wiki/:name/:id', function(req, res, next) {
+  models.Page.findById(req.params.id, function(err, data) {
+    data.getSimilar(function(err, similarPages) {
       res.render('show', {
-        doc: data[0], 
-        title: data[0].title,
-        tags: data[0].tags, 
+        doc: data, 
+        title: data.title,
+        tags: data.tags, 
         similarPages: similarPages,
-        content: data[0].body, 
+        content: data.body, 
         user: req.user
       });
     });
   });
 });
+
+
 
 // Get tag
 router.get('/search', function(req, res, next) {

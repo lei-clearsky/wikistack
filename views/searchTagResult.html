@@ -1,16 +1,25 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>{{title}}</h1>
+    <h2>{{title}}</h2>
 
     {% if docs.length > 0 %}
       <ul>
         {% for doc in docs %}
-          <li>{{doc|page_link}}</li>
+          <li class="slash-list-item">{{doc|page_link}}</li>
         {% endfor %}
       </ul>
     {% else %}
       There are no pages match your search. Why don't you change your query and <a href='/search'>search again</a>?
     {% endif %}
+
+  <h2>Search Pages by Tags</h2>
+  <form action='/search' method='get'>
+    <div class="form-group">
+      <label for="pageTag">TAGS</label>
+        <input name="pageTag" type="text" class="form-control" id="pageTag" placeholder="Enter Page Tag">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
 
 {% endblock %}
